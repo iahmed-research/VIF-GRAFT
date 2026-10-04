@@ -1,0 +1,134 @@
+{
+  "seed": 20260828,
+  "window": {
+    "sampling_frequency_hz": 250.0,
+    "start_sample": 72500,
+    "end_sample_exclusive": 75000,
+    "invalid_digital_value": -32768,
+    "pulse_representation_hz": 50.0
+  },
+  "channel_policy": {
+    "required_ecg_channels": 2,
+    "ecg_selection": "first_two_provisional_usable_ecg_channels_in_header_order",
+    "pulse_selection": "first_provisional_usable_channel_in_header_order",
+    "presence_flags_are_model_features": false
+  },
+  "filters": {
+    "ecg_band_hz": [
+      5.0,
+      30.0
+    ],
+    "pulse_band_hz": [
+      0.5,
+      8.0
+    ],
+    "butterworth_order": 3
+  },
+  "event_detection": {
+    "ecg_minimum_peak_distance_seconds": 0.2,
+    "pulse_minimum_peak_distance_seconds": 0.25,
+    "ecg_envelope_seconds": 0.08,
+    "prominence_mad_multiplier": 1.5,
+    "minimum_peaks": 3,
+    "maximum_peaks": 60
+  },
+  "morphology": {
+    "template_length_samples": 64,
+    "minimum_complete_beats": 3,
+    "dtw_band_samples": 10,
+    "plateau_difference_tolerance": 1e-06
+  },
+  "pair_tasks": {
+    "EP": {
+      "anchor": "ecg",
+      "target": "ppg",
+      "minimum_lag_seconds": 0.06,
+      "maximum_lag_seconds": 0.6
+    },
+    "EA": {
+      "anchor": "ecg",
+      "target": "abp",
+      "minimum_lag_seconds": 0.03,
+      "maximum_lag_seconds": 0.5
+    },
+    "PA": {
+      "anchor": "ppg",
+      "target": "abp",
+      "minimum_lag_seconds": -0.25,
+      "maximum_lag_seconds": 0.25
+    }
+  },
+  "corruptions": {
+    "jitter_seconds": [
+      0.05,
+      0.15,
+      0.3
+    ],
+    "circular_shift_seconds": [
+      1.37,
+      2.73,
+      4.11
+    ],
+    "lag_drift_end_to_end_seconds": [
+      0.15,
+      0.3
+    ],
+    "beat_delete_fraction": 0.3,
+    "beat_insert_fraction": 0.3,
+    "flatline_duration_seconds": 2.0,
+    "clipping_quantiles": [
+      0.2,
+      0.8
+    ],
+    "band_limited_noise_snr_db": 3.0,
+    "morphology_reverse_fraction": 0.5,
+    "cross_record_max_rate_difference_bpm": 8.0,
+    "cross_record_quality_bins": 3,
+    "cross_record_require_same_outcome_label": true,
+    "cross_record_require_different_record_group": true,
+    "cross_record_donor_must_share_partition_and_cv_fold": true
+  },
+  "coupling_features": [
+    "anchor_peak_count",
+    "target_peak_count",
+    "anchor_rate_bpm",
+    "target_rate_bpm",
+    "absolute_rate_difference_bpm",
+    "consensus_lag_seconds",
+    "anchor_match_fraction",
+    "target_match_fraction",
+    "lag_residual_median_absolute_seconds",
+    "lag_residual_mad_seconds",
+    "lag_residual_iqr_seconds",
+    "lag_slope_seconds_per_second",
+    "paired_interval_mae_seconds",
+    "paired_interval_correlation",
+    "phase_locking_value",
+    "phase_circular_variance",
+    "impulse_cross_correlation"
+  ],
+  "quality_features": [
+    "template_correlation_median",
+    "template_correlation_p10",
+    "template_dtw_distance_median",
+    "plateau_fraction",
+    "invalid_fraction",
+    "adjacent_equal_fraction",
+    "interval_coefficient_of_variation",
+    "prominence_coefficient_of_variation",
+    "spectral_entropy",
+    "spectral_peak_fraction",
+    "robust_amplitude_range"
+  ],
+  "marginal_count_rate_features": [
+    "anchor_peak_count",
+    "target_peak_count",
+    "anchor_rate_bpm",
+    "target_rate_bpm"
+  ],
+  "alignment": {
+    "lag_grid_seconds": 0.01,
+    "matching_tolerance_seconds": 0.08,
+    "candidate_centres_to_evaluate": 5
+  }
+}

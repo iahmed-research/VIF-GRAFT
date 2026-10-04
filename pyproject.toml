@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graft-reproducibility"
+version = "0.1.0"
+description = "GRAFT reproducibility package for supplementary-ECG residual fusion in VT alarm classification"
+requires-python = ">=3.11"
+dependencies = ["numpy==2.2.6", "scipy==1.16.2", "scikit-learn==1.7.0", "torch==2.9.1", "matplotlib==3.10.3", "joblib==1.5.1", "threadpoolctl==3.6.0"]
+
+[project.optional-dependencies]
+test = ["pytest==9.0.3"]
+
+[project.scripts]
+graft = "graft.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"

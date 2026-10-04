@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "dataset": "VTaC 1.0",
+  "window": {
+    "start": 72500,
+    "stop": 75000,
+    "fs": 250
+  },
+  "preprocessing": {
+    "invalid_digital_value": -32768,
+    "interpolate_internal_invalid_runs_max_seconds": 0.2,
+    "longer_invalid_runs_filled_after_normalization_with": 0,
+    "ecg_filters_hz": {
+      "highpass": 1,
+      "lowpass": 30,
+      "notch": 60
+    },
+    "ppg_filters_hz": {
+      "bandpass": [
+        0.5,
+        8
+      ],
+      "notch": 60
+    },
+    "abp_filters_hz": {
+      "bandpass": [
+        0.5,
+        12
+      ],
+      "notch": 60
+    },
+    "filter_order": 3,
+    "normalization": "per_event_per_channel_median_and_1.4826_MAD",
+    "mad_floor": 1e-06,
+    "amplitude_clip_after_normalization": [
+      -12,
+      12
+    ],
+    "cache_dtype": "float32"
+  },
+  "training": {
+    "joint_coalition_training": true,
+    "loss": "record_weighted_unweighted_binary_cross_entropy",
+    "inverse_class_weighting": false,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "batch_size": 64,
+    "maximum_epochs": 100,
+    "minimum_epochs": 15,
+    "early_stopping_patience": 12,
+    "early_stopping_metric": "record_balanced_calibration_fold_log_loss",
+    "learning_rate_schedule": "cosine_decay_after_5_epoch_warmup",
+    "gradient_norm_clip": 5,
+    "mixed_precision": true,
+    "training_augmentations": [
+      "circular_time_shift_max_0.20_seconds",
+      "amplitude_scale_uniform_0.90_to_1.10",
+      "gaussian_noise_snr_20_to_30_db"
+    ],
+    "stress_test_corruptions_allowed_as_training_augmentation": false
+  },
+  "seeds": [
+    20260911,
+    20260912,
+    20260913,
+    20260914,
+    20260915
+  ],
+  "calibration_inner_seed": 20260925,
+  "calibration_inner_partitions": 5,
+  "head_penalty": 0.1,
+  "head_maxiter": 500,
+  "bootstrap_repetitions": 10000,
+  "validation_ensemble": "mean of five corrected outer components; each baseline component is mean of five calibrated seeds",
+  "test_partition_used": false
+}

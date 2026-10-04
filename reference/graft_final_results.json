@@ -1,0 +1,50 @@
+{
+  "dataset": "VTaC 1.0",
+  "method": "GRAFT",
+  "reproduction_run": {
+    "date": "2026-09-29",
+    "environment": {
+      "python": "3.12.9",
+      "platform": "Linux-6.8.0-1066-gcp-x86_64-with-glibc2.35",
+      "numpy": "2.2.6",
+      "scipy": "1.16.2",
+      "sklearn": "1.7.0",
+      "torch": "2.9.1+cu128",
+      "cuda": "12.8",
+      "gpu": "NVIDIA L4"
+    },
+    "archive": {
+      "name": "B_FUSION_GCP_RESULTS.tar.gz",
+      "sha256": "a277edf4dc14c257cfaf246268ed82c9276c3460ba9b4c86ec49300ff5fa95a6"
+    }
+  },
+  "development": {
+    "events": 4060,
+    "qmf_anchor_record_balanced_logloss": 0.23865641,
+    "graft_record_balanced_logloss": 0.23396759,
+    "relative_improvement": 0.0196,
+    "relative_improvement_ci95": [0.0071, 0.0323]
+  },
+  "internal_validation": {
+    "events": 495,
+    "qmf_anchor_record_balanced_logloss": 0.25370810,
+    "graft_record_balanced_logloss": 0.24655219,
+    "relative_improvement": 0.0282,
+    "relative_improvement_ci95": [0.0037, 0.0542]
+  },
+  "operating_point": {
+    "rule": "development-derived high-sensitivity threshold",
+    "sensitivity": 0.9638,
+    "qmf_false_positive_events": 72,
+    "graft_false_positive_events": 65,
+    "qmf_false_negative_events": 4,
+    "graft_false_negative_events": 4
+  },
+  "second_anchor": {
+    "relative_improvement": 0.0197
+  },
+  "notes": [
+    "The public source tree is structured around the final GRAFT method and regenerates outputs from raw VTaC 1.0 waveforms.",
+    "Clinical waveform data are not redistributed in this repository."
+  ]
+}
