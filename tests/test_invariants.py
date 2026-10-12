@@ -89,7 +89,7 @@ def test_raw_waveform_and_quality_extraction(tmp_path):
     (folder/'e.hea').write_text('\n'.join(header)+'\n')
     config=io.read(ROOT/'configs/study.json');qconfig=io.read(ROOT/'configs/quality.json')
     x,channels=data.extract(tmp_path,row,config)
-    assert x['signals'].shape==(4,2500) and x['B'].shape==(51,) and x['eligible']
+    assert x['signals'].shape==(4,2500) and x['graft_features'].shape==(51,) and x['eligible']
     assert x['selected_channel_indices'].tolist()==[0,1,3,4] and x['chest_index']==2
     reps=extract_event_representations(tmp_path,row,channels,qconfig)
     assert set(reps)=={'ecg','ppg','abp'}
@@ -103,7 +103,7 @@ def test_validation_label_alignment_filters_other_splits(tmp_path):
 
 
 def test_reference_presence_isolation():
-    d={'B':np.ones((6,51)),'fold':np.array([0,1,1,1,1,1]),'record':np.array(['a','b','c','d','e','f']),'eligible':np.ones(6,bool)}
-    d['B'][-1,24]=0
+    d={'graft_features':np.ones((6,51)),'fold':np.array([0,1,1,1,1,1]),'record':np.array(['a','b','c','d','e','f']),'eligible':np.ones(6,bool)}
+    d['graft_features'][-1,24]=0
     pools=shapley.reference_sets(d,0,1)
     assert set(pools[0])=={1,2,3,4} and not set(pools[1])&set(pools[2])

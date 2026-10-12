@@ -89,7 +89,7 @@ def selected(data, per_fold):
 
 
 def reference_sets(data, i, calibration_fold):
-    present = data['B'][:, [0, 12, 24, 36]]
+    present = data['graft_features'][:, [0, 12, 24, 36]]
     same = np.all(present == present[i], axis=1)
     pool = np.flatnonzero((data['fold'] == calibration_fold) & data['eligible'] & same)
     records = sorted(set(data['record'][pool].tolist()), key=order)

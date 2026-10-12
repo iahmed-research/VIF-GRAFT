@@ -74,7 +74,7 @@ def run(data,y,out):
     io.save_npz(folder/'EXPLANATIONS.npz',event=d['event'],record=d['record'],fold=d['fold'],raw_terms=terms,effective_group_terms=groups,neutralization_change=neutral,permuted_probability=permuted)
     shap=[]
     for i in sh.selected(d,20):
-        model=numeric_head(heads[str(d['fold'][i])]);target,context=sh.components(model,d['B'][[i]],q[[i]])
+        model=numeric_head(heads[str(d['fold'][i])]);target,context=sh.components(model,d['graft_features'][[i]],q[[i]])
         row={'event':str(d['event'][i]),'record':str(d['record'][i]),'fold':int(d['fold'][i]),'correction':float(p[i]-q[i])}
         if not d['eligible'][i]:row.update(status='exact_missing_fallback',phi=[0.,0.,0.],reference_correction=0.)
         else:
@@ -83,7 +83,7 @@ def run(data,y,out):
             else:
                 row.update(status='explained',references=[])
                 for name,pool in zip(sh.REFERENCES,pools):
-                    donors,_=sh.components(model,d['B'][pool],np.full(len(pool),q[i]))
+                    donors,_=sh.components(model,d['graft_features'][pool],np.full(len(pool),q[i]))
                     phi,values=sh.explain(target[0],donors,sh.weights(d['record'][pool]),q[i],context[0])
                     if abs(values[-1]-row['correction'])>1e-8:raise ValueError('Shapley endpoint differs')
                     row['references'].append({'name':name,'phi':phi.tolist(),'reference_correction':float(values[0]),'events':d['event'][pool].tolist(),'records':len(set(d['record'][pool]))})

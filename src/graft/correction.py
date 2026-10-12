@@ -21,8 +21,8 @@ def feature_specs():
         raise ValueError('Feature schema changed')
     result = {}
     for arm in ARMS[1:]:
-        source = 'A' if arm == 'graft_ecg2' else 'B'
-        slots = ['ECG1', 'ECG2' if source == 'A' else 'chest', 'PPG', 'ABP']
+        source = 'ecg2_features' if arm == 'graft_ecg2' else 'graft_features'
+        slots = ['ECG1', 'ECG2' if source == 'ecg2_features' else 'chest', 'PPG', 'ABP']
         names = [slot + '.' + f for slot in slots for f in cp.CHANNEL_NAMES]
         names += ['ECG_pair.' + f for f in cp.PAIR_NAMES]
         indices = list(range(51))

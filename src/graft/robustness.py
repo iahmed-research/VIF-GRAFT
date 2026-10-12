@@ -21,14 +21,14 @@ def run(data,y,config,out):
     n=len(ix);pred=np.empty((len(rb.CONDITIONS),3,n,len(ARMS)));eligibility=np.empty((len(rb.CONDITIONS),3,n),bool)
     for k,condition in enumerate(rb.CONDITIONS):
         for seed_index,seed in enumerate(rb.SEEDS):
-            stressed=local['B'].copy();mask=local['eligible'].copy()
+            stressed=local['graft_features'].copy();mask=local['eligible'].copy()
             for i,event in enumerate(local['event']):
                 if not mask[i]:continue
                 if condition=='missing':mask[i]=False;continue
                 if condition=='clean':continue
                 x=io.load_npz(Path(out)/'data/waveforms'/f'{event}.npz')
-                stressed[i],mask[i]=rb.stressed_features(local['B'][i],x['signals'][0],x['model_valid_mask'][0],x['chest_physical'],x['chest_valid'],condition,str(event),seed,config['preprocessing'])
-            d={**local,'B':stressed};eligibility[k,seed_index]=mask;pred[k,seed_index,:,0]=local['anchor']
+                stressed[i],mask[i]=rb.stressed_features(local['graft_features'][i],x['signals'][0],x['model_valid_mask'][0],x['chest_physical'],x['chest_valid'],condition,str(event),seed,config['preprocessing'])
+            d={**local,'graft_features':stressed};eligibility[k,seed_index]=mask;pred[k,seed_index,:,0]=local['anchor']
             for fold in range(5):
                 rows=np.flatnonzero(local['fold']==fold);q=local['anchor'][rows]
                 for j,arm in enumerate(ARMS[1:],1):

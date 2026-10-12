@@ -107,7 +107,7 @@ def extract(raw_root,row,config):
     if chest is not None:
         baseline,gain=scales[chest];physical=(raw[:,chest]-baseline)/gain;chest_valid=np.isfinite(raw[:,chest])&(raw[:,chest]!=-32768)
     return {'signals':signals,'available':available,'model_valid_mask':valid,'selected_channel_indices':indices,
-        'A':a,'B':b,'eligible':np.array(eligible),'chest_index':np.array(-1 if chest is None else chest),
+        'ecg2_features':a,'graft_features':b,'eligible':np.array(eligible),'chest_index':np.array(-1 if chest is None else chest),
         'chest_physical':physical,'chest_valid':chest_valid},channel_rows
 
 
@@ -121,7 +121,7 @@ def prepare(raw,rows,config,out):
         return io.load_npz(folder/'features.npz')
     published=published_hashes(raw)
     official={r['event']:r for r in io.csv_rows(raw/'benchmark_data_split.csv')}
-    manifest={};combined={k:[] for k in ('A','B','eligible','chest_index')};channels=[]
+    manifest={};combined={k:[] for k in ('ecg2_features','graft_features','eligible','chest_index')};channels=[]
     for i,row in enumerate(rows):
         if official[row['event']]['record']!=row['record'] or official[row['event']]['split']!=row['split']:raise ValueError('Official split differs')
         hp=Path('waveforms')/row['record']/(row['event']+'.hea')

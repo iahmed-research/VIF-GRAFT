@@ -31,8 +31,8 @@ def fixture(tmp_path):
     for r in rows:
         io.save_npz(tmp_path/'data/waveforms'/f"{r['event']}.npz",signals=rng.normal(size=(4,128)).astype('float32'),available=np.ones(3,bool),model_valid_mask=np.ones((4,128),bool))
     d={k:np.array([r[k] for r in rows]) for k in ('event','record','split','fold')}
-    d.update(A=rng.normal(size=(len(rows),51)),B=rng.normal(size=(len(rows),51)),eligible=np.ones(len(rows),bool))
-    d['B'][:,[0,12,24,36]]=1
+    d.update(ecg2_features=rng.normal(size=(len(rows),51)),graft_features=rng.normal(size=(len(rows),51)),eligible=np.ones(len(rows),bool))
+    d['graft_features'][:,[0,12,24,36]]=1
     y=np.array([r['label'] if r['split']=='train' else -1 for r in rows])
     config=io.read(Path(__file__).resolve().parents[1]/'configs/study.json')
     config['training'].update(maximum_epochs=1,minimum_epochs=1,batch_size=32,mixed_precision=False)

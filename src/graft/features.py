@@ -1,4 +1,4 @@
-"""Waveform descriptors and fitted residual-head primitives used by B."""
+"""Waveform descriptors and fitted residual-head primitives used by GRAFT."""
 from pathlib import Path
 import numpy as np
 from scipy.optimize import minimize
